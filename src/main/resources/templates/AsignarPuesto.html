@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla ::head">
+        <title></title>
+    </head>
+    <body>
+        <header th:replace="plantilla ::header"></header>
+        <input type="hidden" name="id_empleado" th:field="${empleado.id_empleado}"/>
+        <div class="container"> 
+            <div class="card-header">
+                <h2>
+                    Puestos Disponibles
+                </h2>
+                <div class="row">
+                    <div class="col-md-8">
+                                                
+                    </div>
+                </div>
+            </div>
+            <!--Mensaje-->
+            <div class="row mt-3" th:if="${mensaje!=null}">
+                <div class="col">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span th:text="${mensaje}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="row">
+                <div th:if="${puestos != null AND !puestos.empty}" class="col">
+                    <table class="table table-hover" id="tablapuestos">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Categoría
+                                </th>
+                                <th>
+                                    Salario Base
+                                </th>
+                                <th>
+                                    Activo
+                                </th>
+                                <th>
+                                    Grado Mínimo
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="puesto:${puestos}">
+                                <td th:text="${puesto.id_puesto}"></td>
+                                <td th:text="${puesto.nombre}"></td>
+                                <td th:text="${puesto.categoria}"></td>
+                                <td th:text="${puesto.salario_base}"></td>
+                                <td th:text="${puesto.activo}"></td>
+                                <td th:text="${puesto.grado}"></td>
+                                <td>
+                                    <a th:href="@{/asignarPuesto/} + ${puesto.id_puesto} + '/' + ${empleado.id_empleado} "
+                                       class="btn btn-link">
+                                        <i class="fas fa-pen"></i> Asignar
+                                    </a> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${puestos == null AND puestos.empty}" class="col">
+                    <p> No existen empleados </p>
+                </div>
+            </div>
+        </div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tablapuestos').DataTable({
+                    "ordering": true,
+                    "lengthMenu": [5, 10, 15],
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "zeroRecords": "No se encuentran registros",
+                        "info": "Página _PAGE_ de _PAGES_",
+                        "infoFiltered": "(Filtrando _MAX_ registros totales)",
+                        "search": "Buscar",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

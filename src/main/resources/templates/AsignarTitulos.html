@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla ::head">
+        <title></title>
+    </head>
+    <body>
+        <header th:replace="plantilla ::header"></header>
+        <section>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-10 mx-auto">
+                        <div class="card-header">
+                            <h2>Carrera profesional</h2>
+                            <h4><span th:text="${empleado.nombre + ' ' + empleado.apellido1 + ' ' + empleado.id_empleado}" class=""> </span></h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" th:action="@{/guardarT}" th:object="${titulo}">
+                                <input type="hidden" name="id_titulo" th:field="*{id_titulo}"/>
+                                <input type="hidden" name="id_empleado" th:field="${empleado.id_empleado}"/>
+                                <div class="form-group">
+                                    <label for="nombre" class="form-label">Descripción:</label>
+                                    <input type="text" name="nombre" class="form-control" th:field="*{nombre}" required="true"/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('nombre')}" 
+                                          th:errors="*{nombre}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="institucion" class="form-label">Institucion:</label>
+                                    <input type="text" name="institucion" class="form-control" th:field="*{institucion}" required="true"/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('institucion')}" 
+                                          th:errors="*{institucion}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fecha" class="form-label">Fecha</label>
+                                    <input type="date" name="fecha" class="form-control" th:value="*{#dates.format(fecha, 'yyyy-MM-dd')}" required="true"/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('fecha')}" 
+                                          th:errors="*{fecha}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="grado_academico" class="form-label">Grado Academico:</label>
+                                    <select name="grado_academico" class="form-control" th:field="*{grado_academico}">
+                                        <option th:value="'Pre-Grado'" th:selected="true">Pre-Grado</option>
+                                        <option th:value="'Bachiller'">Bachiller</option>
+                                        <option th:value="'Licenciatura'">Licenciatura</option>
+                                        <option th:value="'Post-Grado'">Post-Grado</option>
+                                    </select>
+                                </div>                               
+                                <input type="submit" 
+                                       value="Guardar" 
+                                       class="btn btn-primary" 
+                                       name="guardar"
+                                       />
+                                <a th:href="@{/editarE/} + ${empleado.id_empleado}" class="btn btn-secondary"> Regresar</a>
+                                <a th:href="@{/asignarPuestos/} + ${empleado.id_empleado}" class="btn btn-secondary"> Siguiente</a>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Tabla -->
+                <div class="row">
+                    <div th:if="${empleado.titulos != null AND !empleado.titulos.empty}" class="col">
+                        <table class="table table-hover" id="tablatitulos">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Código
+                                    </th>
+                                    <th>
+                                        Nombre
+                                    </th>
+                                    <th>
+                                        Institución
+                                    </th>
+                                    <th>
+                                        Grado Académico
+                                    </th>
+                                    <th>
+                                        Fecha
+                                    </th>                                    
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="titulo:${empleado.titulos}">
+                                    <td th:text="${titulo.id_titulo}"></td>
+                                    <td th:text="${titulo.nombre}"></td>                                    
+                                    <td th:text="${titulo.institucion}"></td>
+                                    <td th:text="${titulo.grado_academico}"></td>
+                                    <td th:text="${#dates.format(titulo.fecha, 'dd-MMM-yyyy')}"></td>
+                                    <td>
+                                        <a th:href="@{/eliminarTE/} + ${titulo.id_titulo} + '/' + ${empleado.id_empleado}"
+                                           class="btn btn-link">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${empleado.titulos == null AND empleado.titulos.empty}" class="col">
+                        <p> No existen títulos de empleado </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tablatitulos').DataTable({
+                    "ordering": false,
+                    "lengthMenu": [5, 10, 15],
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "zeroRecords": "No se encuentran registros",
+                        "info": "Página _PAGE_ de _PAGES_",
+                        "infoFiltered": "(Filtrando _MAX_ registros totales)",
+                        "search": "Buscar",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla :: head">
+        <title></title>
+        <style>
+            img {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        <header th:replace = "plantilla :: header"></header>
+        <div class="container">
+
+            <h3>Proyecto programado Aplicaciones Empresariales</h3>
+            <h4>Proyecto de manejo de planilla</h4>
+            <p>La siguiente aplicación maneja el cálculo de planilla de una organización, con la cual se puede
+                determinar para cada empleado su salario base, fijado según el tipo de labor que realice. 
+                Permite llevar un registro de las planillas calculadas con sus detalles, así como tambíen dar mantenimiento a 
+                los registros de empleados, pagos y puestos.</p>
+
+
+            <img src="../static/img/pla.png" alt="img" style="width: 50%;"/>
+        </div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+    </body>
+</html>

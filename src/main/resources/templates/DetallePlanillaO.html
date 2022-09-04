@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla :: head">
+        <title> </title>
+    </head>
+    <body>
+        <header th:replace = "plantilla :: header"></header>
+        <div class="container"> 
+            <div class="card-header">
+                <h2>
+                    Detalle de Planillas &nbsp&nbsp&nbsp
+                    <span>Mes: </span><!--Fecha de planilla-->
+                    <span th:text="${planilla.mes}" class=""> </span>
+                    &nbsp&nbsp&nbsp
+                    <span>Año: </span><!--Fecha de planilla-->
+                    <span th:text="${planilla.anio}" class=""> </span>
+                </h2>
+                
+            </div>
+            <div class="row mt-3" th:if="${mensaje!=null}">
+                <div class="col">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <span th:text="${mensaje}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Tabla -->
+            <div class="row">
+                <div th:if="${detPlanillas != null AND !detPlanillas.empty}" class="col">
+                    <table class="table table-hover" id="tabladetalles">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Código
+                                </th>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Salario Base
+                                </th>
+                                <th>
+                                    Salario Bruto
+                                </th>
+                                <th>
+                                    Salario Neto
+                                </th>
+                                <th>
+                                    Puesto
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="detplanilla:${detPlanillas}">
+                                <td th:text="${detplanilla.id_detalle}"></td>
+                                <td th:text="${detplanilla.empleado.id_empleado}"></td>
+                                <td th:text="${detplanilla.empleado.nombre + ' ' + detplanilla.empleado.apellido1}  "></td>                                  
+                                <td th:text="${detplanilla.salario_base}"></td>
+                                <td th:text="${detplanilla.salario_bruto}"></td>
+                                <td th:text="${detplanilla.salario_neto}"></td>
+                                <td th:text="${detplanilla.nombre_puesto}"></td>
+                                <td>
+                                    <a th:href="@{/detallesEmpl/} + ${detplanilla.id_detalle}"
+                                       class="btn btn-link">
+                                        <i class="fas fa-pen"></i> Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${detPlanillas == null or detPlanillas.empty}" class="col">
+                    <p> No existen detalles de planillas </p>
+                </div>
+            </div>
+        </div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tabladetalles').DataTable({
+                    "ordering": true,
+                    "lengthMenu": [5, 10, 15],
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "zeroRecords": "No se encuentran registros",
+                        "info": "Página _PAGE_ de _PAGES_",
+                        "infoFiltered": "(Filtrando _MAX_ registros totales)",
+                        "search": "Buscar",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

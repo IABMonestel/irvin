@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla :: head">
+        <title> </title>
+    </head>
+    <body>
+        <header th:replace = "plantilla :: header"></header>
+        <div class="container"> 
+            <div class="card-header">
+                <h2>
+                    Listado de Empleados
+                </h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <form method="Post" th:action="@{/buscarE}">
+                            <div class="input-group">
+                                <input type="text" name="txtNombre" placeholder="Nombre y/o apellido" class="form-control"/>
+                                <input type="submit" value="Buscar" class="btn-primary"/>
+                                &nbsp&nbsp&nbsp
+                                <a th:href="@{/agregarE}"> <i class="fas fa-address-book"></i> Agregar Empleado </a>
+                            </div>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+            <!--Mensaje-->
+            <div class="row mt-3" th:if="${mensaje!=null}">
+                <div class="col">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <span th:text="${mensaje}"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Tabla -->
+            <div class="row">
+                <div th:if="${empleados != null AND !empleados.empty}" class="col">
+                    <table class="table table-hover" id="tablaempleados">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Puesto
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Teléfono
+                                </th>
+                                <th>
+                                    Provincia
+                                </th>
+                                <th>
+                                    Ingreso
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="empleado:${empleados}">
+                                <td th:text="${empleado.id_empleado}"></td>
+                                <td th:text="${empleado.nombre + ' ' + empleado.apellido1}"></td>
+                                <td th:text="${empleado.puesto.nombre}"></td>
+                                <td th:text="${empleado.email}"></td>
+                                <td th:text="${empleado.telefono}"></td>
+                                <td th:text="${empleado.provincia}"></td>
+                                <td th:text="${#dates.format(empleado.fecha_ingreso, 'dd-MMM-yyyy')}"></td>
+                                <td>
+                                    <a th:href="@{/editarE/} + ${empleado.id_empleado}"
+                                       class="btn btn-link">
+                                        <i class="fas fa-pen"></i> Editar
+                                    </a> |
+                                    <a th:href="@{/eliminarE(id_empleado=${empleado.id_empleado})}"
+                                       class="btn btn-link">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </a>
+                                    |
+                                    <a th:href="@{/pensionE(id_empleado=${empleado.id_empleado})}"
+                                       class="btn btn-link">
+                                        <i class="fas fa-address-book"></i> Pensiones
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${empleados == null AND empleados.empty}" class="col">
+                    <p> No existen empleados </p>
+                </div>
+            </div>
+        </div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tablaempleados').DataTable({
+                    "ordering": true,
+                    "lengthMenu": [5, 10, 15],
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "zeroRecords": "No se encuentran registros",
+                        "info": "Página _PAGE_ de _PAGES_",
+                        "infoFiltered": "(Filtrando _MAX_ registros totales)",
+                        "search": "Buscar",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

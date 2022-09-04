@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head th:replace="plantilla ::head">
+        <title> </title>
+    </head>
+    <body>
+        <header th:replace="plantilla ::header"></header>
+        <section>
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-10 mx-auto">
+                        <div class="card-header">
+                            <h2>Mantenimiento de Puestos</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" th:action="@{/guardarP}" th:object="${puesto}">
+                                <input type="hidden" name="id_producto" th:field="*{id_puesto}"/>
+                                <div class="form-group">
+                                    <label for="nombre" class="form-label">Descripción</label>
+                                    <input type="text" name="nombre" class="form-control" th:field="*{nombre}" required="true"/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('nombre')}" 
+                                          th:errors="*{nombre}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoria" class="form-label">Categoría</label>
+                                    <input type="number" name="categoria" step="1" class="form-control" th:field="*{categoria}" min='1' max='2'/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('categoria')}" 
+                                          th:errors="*{categoria}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="salario_base" class="form-label">Salario Base</label>
+                                    <input type="number" name="salario_base" step="0.01" class="form-control" th:field="*{salario_base}" min="1" max='9999999'/>
+                                    <span class="font-italic text-danger" 
+                                          th:if="${#fields.hasErrors('salario_base')}" 
+                                          th:errors="*{salario_base}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="grado" class="form-label">Grado Mínimo</label>
+                                    <select name="grado" class="form-control" th:field="*{grado}">
+                                        <option th:value="'Pre-Grado'" th:selected="true">Pre-Grado</option>
+                                        <option th:value="'Bachiller'">Bachiller</option>
+                                        <option th:value="'Licenciatura'">Licenciatura</option>
+                                        <option th:value="'Post-Grado'">Post-Grado</option>
+                                    </select>
+                                </div>                                
+                                <input type="submit" 
+                                       value="Guardar" 
+                                       class="btn btn-primary" 
+                                       name="guardar"
+                                       />
+                                <a th:href="@{/puestosL}" class="btn btn-secondary"> Regresar</a>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <div><h1>&nbsp&nbsp&nbsp</h1></div>
+        <footer th:replace="plantilla ::footer"></footer>
+    </body>
+</html>
